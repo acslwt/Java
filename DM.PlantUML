@@ -1,0 +1,75 @@
+@startuml
+package "Boutique" #DDDDDD {
+    class Sandwich<p extends IPain , S extends ISauce , I extends IIngredient > {
+        - String nom
+        - P pain
+        - ArrayList<'S'> sauce
+        -ArrayList<'I'> ingredients
+        + Sandwich(String nom)
+        + void composerSandwich( P pain , ArrayList<'S'> sauce , ArrayList<'I'> ingredients )
+        + boolean ingredientCommun( Sandwich< P , S , I > S1 , Sandwich< P , S , I > S2 )
+        + P getPain()
+        + ArrayList<'S'> getSauce()
+        + String getNom()
+        + void setPain(P pain)
+        + void setNom(String nom)
+    }
+    Sandwich *- IPain
+    Sandwich *- ISauce
+    Sandwich *- IIngredient
+    class vegan extends Sandwich {}
+    class vegetarien extends Sandwich {}
+    class pain implements IPain {
+        + pain ( String nom , double calories)
+    }
+    class sauce implements ISauce{
+        + sauce ( String nom , double calories)
+    }
+    class ingredient implements IIngredient{
+        + ingredient ( String nom , double calories)
+    }
+    class painNormal extends pain {}
+    class sauceNormal extends sauce{}
+    class ingredientNormal extends ingredient{}
+    class painVegetarient extends pain {}
+    class sauceVegetarient extends sauce {}
+    class ingredientVegetarient extends ingredient {}
+    class TypeAliment implements ITypeAliment {
+        String nom
+        double calories
+    }
+    class sauce extends TypeAliment  {}
+    class ingredient extends TypeAliment  {}
+    class pain extends TypeAliment  {}
+    class painVegetarient implements IVegetarien {}
+    class painVegan extends painVegetarient {}
+    class painVegan implements IVegan {}
+    class painNormal {}
+    class sauceVegetarient implements IVegetarien{}
+    class sauceVegan extends sauceVegetarient  {}
+    class sauceVegan implements IVegan {}
+    class sauceNormal {}
+    class ingredientVegetarient implements IVegetarien {}
+    class ingredientVegan extends ingredientVegetarient  {}
+    class ingredientVegan implements IVegan {}
+    class ingredientNormal {}
+
+
+
+    interface ISauce <<interface>> {}
+    interface IIngredient <<interface>>{}
+    interface IPain <<interface>>{}
+    interface ISauce <<interface>> implements ITypeAliment{}
+    interface IIngredient <<interface>> implements ITypeAliment{}
+    interface IPain <<interface>> implements ITypeAliment{}
+    interface ITypeAliment <<interface>>{
+        +getNom()
+        +setNom()
+        +getCalories()
+        +setCalories()
+    }
+    interface IVegan <<interface>> implements IVegetarien{}
+    interface IVegetarien <<interface>> {}
+}
+
+@enduml
