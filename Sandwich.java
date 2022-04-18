@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Sandwich<P extends IPain,S extends Isauce,I extends Iingredient> {
+public class Sandwich<P extends Pain,S extends Sauce,I extends Ingredient> {
 private String nom;
 private P pain;
 private ArrayList<S> sauce;
@@ -132,7 +132,7 @@ public String plusCalorique(){
     return nom;
 }
 
-public void deplacerIngredient(Sandwich<?,?,? super I> s1,I ingredient){
+public <U extends I> void deplacerIngredient(Sandwich<?,?,? super I> s1,U ingredient){
 
     if(this.ingredientCommun(s1,ingredient)==true){
         System.out.println("L'ingredient existe déjà dans les deux sandwich");
