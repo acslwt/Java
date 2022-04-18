@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.*;
 
-public class Sandwich<P extends Pain,S extends Sauce,I extends Ingredient> {
+public class Sandwich<P extends IPain,S extends Isauce,I extends Iingredient> implements Iterable<TypeAliment>{
 private String nom;
 private P pain;
 private ArrayList<S> sauce;
@@ -64,6 +66,15 @@ public void setNom(String nom){
     this.nom = nom;
 }
 
+public ArrayList<I> getAllIngredients(){
+    return this.ingredients;
+}
+
+public ArrayList<S> getAllSauce(){
+    return this.sauce;
+}
+
+
 public I getIngredient(int i){
     if(i<this.nombreIngredients()){
         return this.ingredients.get(i);
@@ -80,6 +91,9 @@ public <U extends I> void setIngredient(U ingredient){
 
 public int nombreIngredients(){
     return this.ingredients.size();
+}
+public int nombreSauces(){
+    return this.sauce.size();
 }
 
 public boolean ingredientExiste(I ingredient){
@@ -132,7 +146,7 @@ public String plusCalorique(){
     return nom;
 }
 
-public <U extends I> void deplacerIngredient(Sandwich<?,?,? super I> s1,U ingredient){
+public void deplacerIngredient(Sandwich<?,?,? super I> s1,I ingredient){
 
     if(this.ingredientCommun(s1,ingredient)==true){
         System.out.println("L'ingredient existe déjà dans les deux sandwich");
@@ -141,6 +155,32 @@ public <U extends I> void deplacerIngredient(Sandwich<?,?,? super I> s1,U ingred
         s1.setIngredient(ingredient);
     }
 
+}
+
+@Override
+public ConcreteIterator iterator(){
+
+    return new ConcreteIterator(this);
+    
+}
+
+public void listeIngredientIterateur(){
+
+    ConcreteIterator iterateur = this.iterator();
+
+    while(iterateur.hasNext()){
+        System.out.println(iterateur.next().getNom());
+    }
+
+}
+
+public void listeIngredientStream(){
+
+    Stream<I> s1 = this.getAllIngredients().stream();
+    Stream<S> s2 = this.getAllSauce().stream();
+    Stream<P> s3 = Stream.of(this.getPain());
+    Stream.concat(Stream.concat(s1,s2),s3).map(x->x).forEach(y->System.out.println(y.getNom()));
+    // listenew.stream().map(x->x).forEach((y->System.out.println(y.getNom())));
 }
 
 }
